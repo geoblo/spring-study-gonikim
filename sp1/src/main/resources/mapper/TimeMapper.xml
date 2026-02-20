@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!-- <select> 등을 만들 때 자동완성 기능이 작동 -->
+<mapper namespace="org.zerock.mapper.TimeMapper"> <!-- 반드시 매퍼 인터페이스와 동일한 이름을 사용 -->
+
+	<select id="getTime2" resultType="string"> <!-- id는 반드시 메소드 이름과 일치 -->
+		SELECT NOW()
+	</select>
+
+</mapper>
