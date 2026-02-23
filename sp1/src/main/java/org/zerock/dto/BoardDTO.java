@@ -23,6 +23,31 @@ public class BoardDTO {
 	private boolean delFlag;
 	
 	
+	// 빌더 패턴 연습 및 테스트용
+	private static void testBuilder() {
+		// 기존 생성자 방식: 순서에 맞춰야 하고, 어떤 값이 어떤 필드인지 한눈에 알기 어려움
+		BoardDTO dto1 = new BoardDTO(1L, "제목", "내용", "작성자", null, null, false);
+		
+		// 빌더 사용: 순서에 상관이 없고, 필드 이름이 명시되므로 코드 이해도가 높아짐
+		BoardDTO dto2 = BoardDTO.builder()
+				.title("제목")
+				.writer("작성자")
+				.content("내용")
+				.build();
+		
+		// @Builder
+		// 롬복에서 제공하는 어노테이션으로 빌더 패턴(Builder Pattern)을 자동으로 구현해주는 역할
+		// 장점: 생성자 파라미터 순서 기억 불필요, 필드 선택적 생성 가능
+		// 사용 상황: 필드가 많거나 생성 과정이 복잡한 객체 생성 시 매우 유용
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
