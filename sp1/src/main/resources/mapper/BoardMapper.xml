@@ -5,8 +5,50 @@
 <mapper namespace="org.zerock.mapper.BoardMapper"> <!-- 반드시 매퍼 인터페이스와 동일한 이름을 사용 -->
 
 	<insert id="insert">
+		<!-- keyProperty: INSERT가 완료된 후, DB에서 조회한 PK 값을 저장할 객체(DTO)의 필드 이름을 지정 -->
+		<!-- resultType: 조회할 키 값의 자바 타입을 지정 -->
+		<!-- order: <selectKey> 구문을 INSERT 실행 후에 실행하라는 의미 
+		   MySQL의 LAST_INSERT_ID()는 반드시 INSERT가 끝난 후에 호출되어야 유효하므로 AFTER를 사용 -->
+		<selectKey keyProperty="bno" resultType="Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	
 		INSERT INTO tbl_board (title, content, writer)
 		VALUES (#{title}, #{content}, #{writer})
 	</insert>
+	
+	<!-- resultType: SQL 실행 결과(ResultSet)을 어떤 타입의 객체로 매핑할 것인지 지정 -->
+	<select id="selectOne" resultType="BoardDTO">
+		SELECT * 
+		FROM tbl_board
+		WHERE bno = #{bno}
+	</select>
+	
+	<!-- 논리적 삭제(컬럼값 변경: delflag = TRUE)
+		실제 삭제는 하지 않고, 삭제 표시만 해두는 경우 -->
+	<update id="remove">
+		UPDATE tbl_board
+		SET delflag = TRUE
+		WHERE bno = #{bno}
+	</update>	
+	
+	<update id="update">
+		UPDATE tbl_board
+		SET
+			title = #{title},
+			content = #{content},
+			updatedate = NOW(),
+			delflag = #{delFlag}
+		WHERE bno = #{bno}
+	</update>
+	
+	<select id="list" resultType="BoardDTO">
+		SELECT bno, title, writer, regdate
+		FROM tbl_board
+		WHERE delflag = FALSE
+		ORDER BY bno DESC
+	</select>
+	
+	
 
 </mapper>
