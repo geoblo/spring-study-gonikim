@@ -23,6 +23,42 @@ public class BoardService {
 		return boardMapper.list();
 	}
 	
+	// 게시글 등록 처리: 등록 기능을 작성하고 새로 추가된 게시물의 번호를 반환하도록 구성
+	public Long register(BoardDTO dto) {
+		int insertCount = boardMapper.insert(dto);
+		
+		log.info("insertCount: " + insertCount);
+		
+		return dto.getBno();
+	}
+	
+	// 게시물 조회 처리: 파라미터는 게시물의 번호(bno)이고 리턴 타입은 BoardDTO를 사용
+	public BoardDTO read(Long bno) {
+		BoardDTO boardDTO = boardMapper.selectOne(bno);
+		
+		return boardDTO;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

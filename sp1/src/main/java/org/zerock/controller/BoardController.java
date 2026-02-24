@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.dto.BoardDTO;
 import org.zerock.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -41,9 +43,16 @@ public class BoardController {
 	// Quiz: registerPost()는 POST 방식의 요청을 처리하고 
 	// 브라우저에게 '/board/list'로 이동하도록 유도(리다이렉트)
 	@PostMapping("/register")
-	public String registerPost() {
+	public String registerPost(BoardDTO dto, RedirectAttributes rttr) {
 		log.info("---------------------------------");
 		log.info("board register post");
+		
+		// 브라우저에서 전달되는 데이터는 BoardDTO를 통해서 자동 수집
+		// 리턴된 값을 전달하기 위해 RedirectAttributes 사용
+		
+		Long bno = boardService.register(dto);
+		
+		rttr.addFlashAttribute("result", bno);
 		
 		return "redirect:/board/list";
 	}
@@ -51,9 +60,14 @@ public class BoardController {
 	// 게시물 조회는 GET 방식으로 게시물의 번호로 해당 게시물을 Model에 담아서 전달하는 방식으로 구성
 	// 경로의 마지막 값을 게시물의 번호로 활용
 	@GetMapping("/read/{bno}")
-	public String read(@PathVariable("bno") Long bno) {
+	public String read(@PathVariable("bno") Long bno, Model model) {
 		log.info("---------------------------------");
 		log.info("board read");
+		
+		BoardDTO dto = boardService.read(bno);
+		
+		// dto 객체를 Model에 담아서 전달
+		model.addAttribute("board", dto);
 		
 		return "/board/read";
 	}

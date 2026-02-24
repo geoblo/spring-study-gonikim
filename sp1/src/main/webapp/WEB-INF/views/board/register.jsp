@@ -12,6 +12,21 @@
      
      	<div class="card-body">
       	<form action="/board/register" method="post">
+      	
+      		<div class="mb-3">
+						<label class="form-label">Title</label>
+						<input type="text" name="title" class="form-control">
+					</div>
+					
+					<div class="mb-3">
+				  	<label class="form-label">Content</label>
+				  	<textarea class="form-control" name="content" rows="3"></textarea>
+				  </div>
+				
+				  <div class="mb-3">
+				  	<label class="form-label">Writer</label>
+				  	<input type="text" name="writer" class="form-control">
+				  </div>
 
 	        <!-- Submit Button -->
 	        <div class="d-flex justify-content-end">

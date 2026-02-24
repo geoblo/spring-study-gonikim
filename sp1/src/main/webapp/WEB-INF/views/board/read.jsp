@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <%@include file="/WEB-INF/views/includes/header.jsp" %>
 
 <div class="row justify-content-center">
@@ -11,7 +13,39 @@
      	</div>
      
      	<div class="card-body">
-      
+      	
+      	<div class="mb-3 input-group input-group-lg">
+			    <span class="input-group-text">Bno</span>
+			    <input type="text" class="form-control" value='<c:out value="${board.bno}"/>' readonly>
+			  </div>
+			
+			  <div class="mb-3 input-group input-group-lg">
+			    <span class="input-group-text">Title</span>
+			    <input type="text" name="title" class="form-control" value="<c:out value="${board.title}"/>" readonly>
+			  </div>
+			
+			  <div class="mb-3 input-group input-group-lg">
+			    <span class="input-group-text">Content</span>
+			    <textarea class="form-control" name="content" rows="3" readonly><c:out value="${board.content}"/></textarea>
+			  </div>
+			
+			  <div class="mb-3 input-group input-group-lg">
+			    <span class="input-group-text">Writer</span>
+			    <input type="text" name="writer" class="form-control" value="<c:out value="${board.writer}"/>" readonly>
+			  </div>
+			
+			  <div class="mb-3 input-group input-group-lg">
+			    <span class="input-group-text">RegDate</span>
+			    <input type="text" name="regDate" class="form-control" value="<c:out value="${board.createdDate}"/>" readonly>
+			  </div>
+			
+			  <div class="float-end">
+			    <button type="button" class="btn btn-info btnList">LIST</button>
+			    <c:if test="${!board.delFlag}">
+			    	<button type="button" class="btn btn-warning btnModify">MODIFY</button>
+			    </c:if>
+			  </div>
+      	
      	</div>
    	</div>
   </div>
