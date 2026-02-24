@@ -17,6 +17,7 @@ public class BoardListPagingDTO {
 	private int size; // 한 페이지당 크기(한 페이지에 출력되는 데이터 개수)
 	
 	// 페이지 번호의 처리 계산
+	private static final int BLOCK_SIZE = 10; // 페이지 번호 블록 크기(blockSize)
 	private int start; // 블록의 시작 번호
 	private int end; // 블록의 마지막 번호
 	private boolean prev;
@@ -31,8 +32,8 @@ public class BoardListPagingDTO {
 		
 		// start 계산을 위한 tempEnd 페이지
 		// tempEnd: 현재 블록의 마지막 페이지(임시)
-		int tempEnd = (int) (Math.ceil(page / 10.0)) * 10; // 여기서 10.0, 10은 페이지 블록 크기(blockSize)
-		this.start = tempEnd - 9;
+		int tempEnd = (int) (Math.ceil(page / (double) BLOCK_SIZE)) * BLOCK_SIZE;
+		this.start = tempEnd - (BLOCK_SIZE - 1);
 		
 		this.prev = start != 1; // start 값이 1이 아니라면 이전 페이지로 이동 필요
 		
