@@ -1,10 +1,12 @@
 package org.zerock.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerock.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,11 +17,16 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class BoardController {
 	
-	// Quiz: 게시물 목록은 '/board/list'라는 경로를 GET 방식으로 호출해서 동작하도록 설계
+	private final BoardService boardService;
+	
+	// Quiz1: 게시물 목록은 '/board/list'라는 경로를 GET 방식으로 호출해서 동작하도록 설계
+	// Quiz2: BoardService를 이용해서 호출한 반환된 결과를 담아 화면으로 전달
 	@GetMapping("/list")
-	public void list() {
+	public void list(Model model) {
 		log.info("---------------------------------");
 		log.info("board list");
+		
+		model.addAttribute("list", boardService.getList());
 	}
 	
 	// 게시물 등록은 GET 방식과 POST 방식 모두를 이용해서 처리
