@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.dto.BoardDTO;
 import org.zerock.service.BoardService;
@@ -74,25 +75,35 @@ public class BoardController {
 	
 	// GET 방식으로 수정하려고 하는 게시물을 확인하고, POST 방식으로 수정이나 삭제를 처리
 	@GetMapping("/modify/{bno}")
-	public String modifyGet(@PathVariable("bno") Long bno) {
+	public String modifyGet(@PathVariable("bno") Long bno, Model model) {
 		log.info("---------------------------------");
 		log.info("board modify get");
+		
+		BoardDTO dto = boardService.read(bno);
+		
+		model.addAttribute("board", dto);
 		
 		return "/board/modify";
 	}
 	
 	@PostMapping("/modify")
-	public String modifyPost() {
+	public String modifyPost(BoardDTO boardDTO) {
 		log.info("---------------------------------");
 		log.info("board modify post");
 		
-		return "redirect:/board/read/123";
+		boardService.modify(boardDTO);
+		
+		return "redirect:/board/read/" + boardDTO.getBno();
 	}
 	
 	@PostMapping("/remove")
-	public String remove() {
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		log.info("---------------------------------");
 		log.info("board remove post");
+		
+		boardService.remove(bno);
+		
+		rttr.addFlashAttribute("result", bno);
 		
 		return "redirect:/board/list";
 	}

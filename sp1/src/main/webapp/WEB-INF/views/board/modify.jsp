@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <%@include file="/WEB-INF/views/includes/header.jsp" %>
 
 <div class="row justify-content-center">
@@ -12,7 +14,32 @@
      
      	<div class="card-body">
 	     	<form id="actionForm" action="/board/modify" method="post">
-      		
+	     	
+      		<div class="mb-3 input-group input-group-lg">
+				    <span class="input-group-text">Bno</span>
+				    <input type="text" name="bno" class="form-control" value='<c:out value="${board.bno}"/>' readonly>
+				  </div>
+					
+				  <div class="mb-3 input-group input-group-lg">
+				    <span class="input-group-text">Title</span>
+				    <input type="text" name="title" class="form-control" value="<c:out value="${board.title}"/>">
+				  </div>
+				
+				  <div class="mb-3 input-group input-group-lg">
+				    <span class="input-group-text">Content</span>
+				    <textarea class="form-control" name="content" rows="3"><c:out value="${board.content}"/></textarea>
+				  </div>
+				
+				  <div class="mb-3 input-group input-group-lg">
+				    <span class="input-group-text">Writer</span>
+				    <input type="text" class="form-control" value="<c:out value="${board.writer}"/>" readonly>
+				  </div>
+				
+				  <div class="mb-3 input-group input-group-lg">
+				    <span class="input-group-text">RegDate</span>
+				    <input type="text" class="form-control" value="<c:out value="${board.createdDate}"/>" readonly>
+				  </div>
+				  
       	</form>
       	
       	<div class="float-end">

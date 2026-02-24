@@ -40,9 +40,13 @@
 			  </div>
 			
 			  <div class="float-end">
-			    <button type="button" class="btn btn-info btnList">LIST</button>
+			  	<a href="/board/list">
+				    <button type="button" class="btn btn-info btnList">LIST</button>
+			  	</a>
 			    <c:if test="${!board.delFlag}">
-			    	<button type="button" class="btn btn-warning btnModify">MODIFY</button>
+			    	<a href="/board/modify/${board.bno}">
+				    	<button type="button" class="btn btn-warning btnModify">MODIFY</button>
+			    	</a>
 			    </c:if>
 			  </div>
       	

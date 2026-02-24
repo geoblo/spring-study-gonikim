@@ -96,7 +96,18 @@ public class BoardMapperTests {
 //		dtoList.stream().forEach(log::info);
 	}
 	
-	
+	@Test
+	public void testList2() {
+		int page = 2;
+		
+		// 계산
+		int count = 10;
+		int skip = (page - 1) * count;
+		
+		List<BoardDTO> dtoList = boardMapper.list2(skip, count);
+		
+		dtoList.stream().forEach(board -> log.info(board));
+	}
 	
 	
 	
