@@ -1,6 +1,7 @@
 package org.zerock.dto;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,28 +44,11 @@ public class BoardListPagingDTO {
 		// (상황2) 225 / 10.0 = 22.5 => 23 (이때는 tempEnd 적용)
 		this.end = Math.min(tempEnd, lastPage);
 		
+		// 현재 블록의 마지막 페이지(end)가 전체 마지막 페이지(lastPage)보다 작으면 다음 블록 존재
+		this.next = end < lastPage;
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		// 화면에 출력할 번호들 계산
+		this.pageNums = IntStream.rangeClosed(start, end).boxed().toList();
 	}
-	
-	
-	
-	
-	
 	
 }
