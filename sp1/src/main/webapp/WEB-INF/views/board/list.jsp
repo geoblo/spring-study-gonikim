@@ -40,6 +40,29 @@
 						
 					</tbody>
 				</table>
+				
+				<!-- 페이지 번호 출력 -->
+				<div class="d-flex justify-content-center">
+					<ul class="pagination">
+				  	<c:if test="${dto.prev}">
+				    	<li class="page-item">
+				      	<a class="page-link" tabindex="-1">Previous</a>
+				      </li>
+				    </c:if>
+				    
+				    <c:forEach var="num" items="${dto.pageNums}">
+				      <li class="page-item">
+				      	<a class="page-link" href="${num}">${num}</a>
+				      </li>
+				    </c:forEach>
+				
+				    <c:if test="${dto.next}">
+				      <li class="page-item">
+				      	<a class="page-link">Next</a>
+				      </li>
+				    </c:if>
+				  </ul>
+				</div>
      		
      	</div>
    	</div>
