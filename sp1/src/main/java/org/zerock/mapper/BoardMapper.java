@@ -10,9 +10,9 @@ public interface BoardMapper {
 
 	int insert(BoardDTO dto);
 	
-	BoardDTO selectOne(Long bno);
+	BoardDTO selectOne(@Param("bno") Long bno);
 	
-	int remove(Long bno);
+	int remove(@Param("bno") Long bno);
 	
 	int update(BoardDTO dto);
 	
