@@ -63,6 +63,51 @@
 		WHERE delflag = FALSE
 	</select>
 	
+	<sql id="search">
+		<if test="types != null and keyword != null and keyword != ''">
+			<!-- foreach 속성으로 반복의 시작이나 종료, 중간에 특정한 구문을 넣을 수 있음 -->
+			<foreach collection="types" item="type" open="AND (" close=")" separator="OR">
+				
+				<if test='type.equals("T")'>
+					title like CONCAT('%', #{keyword}, '%')
+				</if>
+				<if test='type.equals("C")'>
+					content like CONCAT('%', #{keyword}, '%')
+				</if>
+				<if test='type.equals("W")'>
+					writer like CONCAT('%', #{keyword}, '%')
+				</if>
+				
+			</foreach>
+		</if>
+	</sql>
+	
+	<select id="listSearch" resultType="BoardDTO">
+		SELECT bno, title, writer, regdate
+		FROM tbl_board
+		WHERE delflag = FALSE
+		
+		<include refid="search"></include>
+		
+		ORDER BY bno DESC
+		LIMIT #{count} OFFSET #{skip}
+	</select>
+	
+	<select id="listCountSearch" resultType="int">
+		SELECT COUNT(bno)
+		FROM tbl_board
+		WHERE delflag = FALSE
+		<include refid="search"></include>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

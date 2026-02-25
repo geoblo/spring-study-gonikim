@@ -24,11 +24,19 @@ public class BoardListPagingDTO {
 	private boolean next;
 	private List<Integer> pageNums;
 	
-	public BoardListPagingDTO(List<BoardDTO> boardDTOList, int totalCount, int page, int size) {
+	// 검색 관련 추가
+	private String types;
+	private String keyword;	
+	
+	public BoardListPagingDTO(List<BoardDTO> boardDTOList, int totalCount, int page, int size,
+			String types, String keyword) {
 		this.boardDTOList = boardDTOList;
 		this.totalCount = totalCount;
 		this.page = page;
 		this.size = size;
+		// 검색 관련 추가
+		this.types = types;
+		this.keyword = keyword;
 		
 		// start 계산을 위한 tempEnd 페이지
 		// tempEnd: 현재 블록의 마지막 페이지(임시)

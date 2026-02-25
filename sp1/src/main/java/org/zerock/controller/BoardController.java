@@ -28,6 +28,8 @@ public class BoardController {
 	public void list(
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size,
+			@RequestParam(name = "types", required = false) String types,
+			@RequestParam(name = "keyword", required = false) String keyword,
 			Model model) {
 		log.info("---------------------------------");
 		log.info("board list");
@@ -35,7 +37,7 @@ public class BoardController {
 		log.info("page: " + page); // 현재 페이지 번호
 		log.info("size: " + size); // 한 페이지에 출력되는 데이터 개수
 		
-		model.addAttribute("dto", boardService.getList(page, size));
+		model.addAttribute("dto", boardService.getList(page, size, types, keyword));
 	}
 	
 	// 게시물 등록은 GET 방식과 POST 방식 모두를 이용해서 처리

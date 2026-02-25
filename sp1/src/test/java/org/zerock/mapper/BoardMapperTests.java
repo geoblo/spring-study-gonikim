@@ -109,7 +109,21 @@ public class BoardMapperTests {
 		dtoList.stream().forEach(board -> log.info(board));
 	}
 	
-	
+	@Test
+	public void testSearch() {
+		int page = 2;
+		
+		// 계산
+		int count = 10;
+		int skip = (page - 1) * count;
+		
+		String[] types = {"T", "C", "W"};
+//		String[] types = null;		
+		String keyword = "Test";
+//		String keyword = "";
+		
+		boardMapper.listSearch(skip, count, types, keyword);
+	}
 	
 	
 	

@@ -26,7 +26,7 @@ public class BoardService {
 	// 게시물 목록 처리 + 페이징 처리: 
 	// 현재 페이지 번호와 화면에 필요한 데이터의 개수를 파라미터로 전달받아서
 	// Mapper의 list2()와 listCount()를 호출하도록 구성
-	public BoardListPagingDTO getList(int page, int size) {
+	public BoardListPagingDTO getList(int page, int size, String typeStr, String keyword) {
 		// 페이지 번호가 0보다 작으면 무조건 1페이지
 		page = page <= 0 ? 1 : page;
 		// 사이즈가 10보다 작거나 100보다 크면 10
@@ -34,11 +34,14 @@ public class BoardService {
 		
 		int skip = (page - 1) * size; // 2페이지라면 (2 - 1) * 10 이 되어야 함
 		
-		List<BoardDTO> list = boardMapper.list2(skip, size);
+		// 검색 관련 추가
+		String[] types = (typeStr != null && !typeStr.isEmpty()) ? typeStr.split("") : null;
 		
-		int total = boardMapper.listCount();
+		List<BoardDTO> list = boardMapper.listSearch(skip, size, types, keyword);
 		
-		return new BoardListPagingDTO(list, total, page, size);
+		int total = boardMapper.listCountSearch(types, keyword);
+		
+		return new BoardListPagingDTO(list, total, page, size, typeStr, keyword);
 	}
 	
 	// 게시글 등록 처리: 등록 기능을 작성하고 새로 추가된 게시물의 번호를 반환하도록 구성
