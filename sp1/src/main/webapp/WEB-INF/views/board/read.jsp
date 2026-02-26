@@ -103,6 +103,34 @@
 	</div>
 </div>
 
+<!-- 댓글 모달창 -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="replyModalLabel">댓글 수정 / 삭제</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			
+			<div class="modal-body">
+				<form id="replyModForm">
+					<input type="hidden" name="rno" value="33">
+					<div class="mb-3">
+						<label for="replyText" class="form-label">댓글 내용</label>
+						<input type="text" name="replyText" id="replyText" class="form-control" value="Reply Text">
+					</div>
+				</form>
+      </div>
+      
+      <div class="modal-footer">
+				<button type="button" class="btn btn-primary btnReplyMod">수정</button>
+				<button type="button" class="btn btn-danger btnReplyDel">삭제</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -245,7 +273,37 @@
 		getReplies(href);
 	});
 
-
+	// 댓글 목록에서 특정 댓글에 대한 클릭 이벤트 처리
+	const replyModal = new bootstrap.Modal(document.querySelector('#replyModal'));
+	const replyModForm = document.querySelector('#replyModForm');
+		
+	replyList.addEventListener('click', e => {
+		// replyModal.show(); // 모달창 동작 확인용
+		
+		// 가장 가까운 상위 li 요소 찾기(자기 자신 포함)
+		const targetLi = e.target.closest("li");
+		
+		// data-: 요소에 데이터를 저장하는 용도(사용자 정의 속성을 만듦)
+		// input처럼 value 속성을 지원하는 요소가 아닐 때 유용
+		// const rno = targetLi.getAttribute("data-rno");
+		// 다른 접근 방법
+		const rno = targetLi.dataset.rno;
+		
+		if (!rno) return;
+		
+		// AJAX로 GET 요청을 보내고 
+		// 서버로부터 받은 댓글 데이터(rno, replyText)를 모달창에 출력 후 띄우기
+		// (이때 삭제된 댓글은 조회할 수 없다는 alert을 띄운다.)
+		
+		
+		
+		
+		
+		
+		
+		
+	});
+	
 
 
 
