@@ -127,6 +127,9 @@
 			console.log("---------- server response ----------");
 			console.log(res);
 			replyForm.reset();
+			
+			// 댓글 등록 후 마지막 페이지로 이동 처리
+			getReplies(1, true);
 		});
 	});
 	
@@ -136,7 +139,7 @@
 	
 	const bno = ${board.bno};
 	
-	function getReplies(pageNum) {
+	function getReplies(pageNum, goLast) {
 		// axios.get(`/replies/\${bno}/list`, );
 		axios.get('/replies/' + bno + '/list', {
 			params: {
@@ -152,7 +155,7 @@
 			// ES6차: 구조 분해 할당(비구조화 할당)
 			const {totalCount, page, size} = data;
 			
-			if (totalCount > (page * size)) {
+			if (goLast && totalCount > (page * size)) {
 				// 마지막 페이지 계산
 				const lastPage = Math.ceil(totalCount / size);
 	
@@ -166,7 +169,7 @@
 		});
 	}
 
-	getReplies(1); // 페이지가 로드되면 우선 1페이지의 댓글 목록을 가져옴
+	getReplies(1, true); // 페이지가 로드되면 우선 1페이지의 댓글 목록을 가져옴
 
 	// 댓글 출력
 	const replyList = document.querySelector('.replyList');
@@ -225,6 +228,22 @@
 		
 		document.querySelector(".pagination").innerHTML = pagingStr;
 	}
+	
+	// 각 페이지 번호의 이벤트 처리
+	document.querySelector(".pagination").addEventListener('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		const target = e.target;
+		
+		const href = target.getAttribute("href");
+		
+		if (!href) return;
+		
+		console.log(href); // 페이지 번호
+		
+		getReplies(href);
+	});
 
 
 
