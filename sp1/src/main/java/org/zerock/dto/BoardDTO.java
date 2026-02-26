@@ -23,6 +23,8 @@ public class BoardDTO {
 	private LocalDateTime updateDate;
 	private boolean delFlag;
 	
+	private int replyCnt; // 댓글 개수
+	
 	public String getCreatedDate() {
 		return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
@@ -30,7 +32,7 @@ public class BoardDTO {
 	// 빌더 패턴 연습 및 테스트용
 	private static void testBuilder() {
 		// 기존 생성자 방식: 순서에 맞춰야 하고, 어떤 값이 어떤 필드인지 한눈에 알기 어려움
-		BoardDTO dto1 = new BoardDTO(1L, "제목", "내용", "작성자", null, null, false);
+//		BoardDTO dto1 = new BoardDTO(1L, "제목", "내용", "작성자", null, null, false);
 		
 		// 빌더 사용: 순서에 상관이 없고, 필드 이름이 명시되므로 코드 이해도가 높아짐
 		BoardDTO dto2 = BoardDTO.builder()

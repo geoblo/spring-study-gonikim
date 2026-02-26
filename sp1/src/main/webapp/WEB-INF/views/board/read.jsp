@@ -277,7 +277,7 @@
 	const replyModal = new bootstrap.Modal(document.querySelector('#replyModal'));
 	const replyModForm = document.querySelector('#replyModForm');
 		
-	replyList.addEventListener('click', e => {
+	replyList.addEventListener('click', async e => {
 		// replyModal.show(); // 모달창 동작 확인용
 		
 		// 가장 가까운 상위 li 요소 찾기(자기 자신 포함)
@@ -294,17 +294,77 @@
 		// AJAX로 GET 요청을 보내고 
 		// 서버로부터 받은 댓글 데이터(rno, replyText)를 모달창에 출력 후 띄우기
 		// (이때 삭제된 댓글은 조회할 수 없다는 alert을 띄운다.)
-		
-		
-		
-		
-		
-		
-		
-		
+		axios.get('/replies/' + rno).then(res => {
+			const targetReply = res.data;
+			console.log(targetReply);
+			
+			// 댓글 데이터 출력
+			if (targetReply.delflag === false) {
+				replyModForm.querySelector('input[name="rno"]').value = targetReply.rno;
+				replyModForm.querySelector('input[name="replyText"]').value = targetReply.replyText;
+				
+				replyModal.show();
+			} else {
+				alert('삭제된 댓글은 조회할 수 없습니다.');
+			}
+		});
 	});
 	
-
+	// 댓글 삭제 처리
+	document.querySelector('.btnReplyDel').addEventListener('click', e => {
+		const formData = new FormData(replyModForm);
+		
+		const rno = formData.get("rno");
+		console.log("rno: " + rno);
+		
+		// Axios로 서버의 삭제 기능을 호출
+		axios.delete('/replies/' + rno).then(res => {
+			const data = res.data;
+			console.log(data);
+			
+			// 정상적인 결과라면 모달창을 닫고 현재 댓글 페이지를 다시 호출
+			replyModal.hide();
+			
+			getReplies(currentPage);
+		});
+	});
+	
+	// 댓글 수정 처리
+	document.querySelector('.btnReplyMod').addEventListener('click', e => {
+		const formData = new FormData(replyModForm);
+		
+		const rno = formData.get("rno");
+		console.log("rno: " + rno);
+		
+		// Axios로 서버의 수정 기능을 호출 + formData 전송
+		axios.put('/replies/' + rno, formData).then(res => {
+			const data = res.data;
+			console.log(data);
+			
+			// 정상적인 결과라면 모달창을 닫고 현재 댓글 페이지를 다시 호출
+			replyModal.hide();
+			
+			getReplies(currentPage);
+		});
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 

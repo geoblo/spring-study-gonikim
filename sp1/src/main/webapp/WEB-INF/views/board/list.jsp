@@ -47,7 +47,11 @@
 										<c:out value="${board.bno}" />
 									</a>
 								</td>
-								<td><c:out value="${board.title}" /></td>
+								<td>
+									<c:out value="${board.title}" />
+									<!-- 댓글의 개수 출력 -->
+									<b style="color: blue">[<c:out value="${board.replyCnt}"/>]</b>
+								</td>
 								<td><c:out value="${board.writer}" /></td>
 								<td><c:out value="${board.createdDate}" /></td>
 							</tr>
