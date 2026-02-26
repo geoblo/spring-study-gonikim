@@ -82,6 +82,27 @@
 	</div>
 </div>
 
+<div class="col-lg-12">
+	<div class="card shadow mb-4">
+		<div class='m-4'>
+			<!--댓글 목록 -->
+			<ul class="list-group replyList">
+				
+			</ul>
+			<!-- 댓글 목록 -->
+			
+			<!-- 페이징 -->
+			<div aria-label="댓글 페이지 네비게이션" class="mt-4">
+				<ul class="pagination justify-content-center">
+					
+				</ul>
+			</div>
+			<!-- 페이징 끝 -->
+			
+		</div>
+	</div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -107,16 +128,103 @@
 			console.log(res);
 			replyForm.reset();
 		});
-		
-		
-		
-		
-		
 	});
+	
+	// 댓글 목록 요청
+	let currentPage = 1; // 현재 댓글 페이지
+	let currentSize = 10; // 한번에 보여질 댓글 개수
+	
+	const bno = ${board.bno};
+	
+	function getReplies(pageNum) {
+		// axios.get(`/replies/\${bno}/list`, );
+		axios.get('/replies/' + bno + '/list', {
+			params: {
+				page: pageNum || currentPage,
+				size: currentSize
+			}
+		}).then(res => {
+			// console.log(res);
+			const data = res.data;
+			console.log(data);
+			
+			// 마지막 댓글 페이지 호출
+			// ES6차: 구조 분해 할당(비구조화 할당)
+			const {totalCount, page, size} = data;
+			
+			if (totalCount > (page * size)) {
+				// 마지막 페이지 계산
+				const lastPage = Math.ceil(totalCount / size);
+	
+				getReplies(lastPage);
+			} else {
+				currentPage = page;
+				currentSize = size;
+				
+				printReplies(data); // 출력
+			}
+		});
+	}
 
+	getReplies(1); // 페이지가 로드되면 우선 1페이지의 댓글 목록을 가져옴
 
-
-
+	// 댓글 출력
+	const replyList = document.querySelector('.replyList');
+	
+	function printReplies(data) {
+		const {replyDTOList, page, size, prev, next, start, end, pageNums} = data;
+		
+		let liStr = '';
+		
+		for (const replyDTO of replyDTOList) {
+			liStr += `
+				<li class="list-group-item" data-rno="\${replyDTO.rno}">
+					<div class="d-flex justify-content-between">
+						<div>
+							<strong>\${replyDTO.rno}</strong> - \${replyDTO.replyText}
+						</div>
+						<div class="text-muted small">
+							\${replyDTO.replyDate}
+						</div>
+					</div>
+					<div class="mt-1 text-secondary small">
+						\${replyDTO.replyer}
+					</div>
+				</li>
+			`;
+		}
+		
+		replyList.innerHTML = liStr;
+		
+		// 댓글 페이징 처리 
+		let pagingStr = '';
+		
+		if (prev) {
+			pagingStr += `
+				<li class="page-item">
+					<a class="page-link" href="\${start -1}" tabindex="-1">이전</a>
+				</li>
+			`;
+		}
+		
+		for (const i of pageNums) {
+			pagingStr += `
+				<li class="page-item \${i === page ? 'active' : ''}">
+					<a class="page-link" href="\${i}">\${i}</a>
+				</li>
+			`;
+		}
+		
+		if (next) {
+			pagingStr += `
+				<li class="page-item">
+					<a class="page-link" href="\${end + 1}">다음</a>
+				</li>
+			`;
+		}
+		
+		document.querySelector(".pagination").innerHTML = pagingStr;
+	}
 
 
 
