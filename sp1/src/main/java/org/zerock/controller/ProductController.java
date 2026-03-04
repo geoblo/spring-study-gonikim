@@ -1,23 +1,23 @@
 package org.zerock.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.dto.ProductDTO;
+import org.zerock.dto.ProductListPagingDTO;
+import org.zerock.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,6 +29,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @RequiredArgsConstructor
 public class ProductController {
 
+	private final ProductService productService;
 	
 	@GetMapping("/register")
 	public void registerGET() {
@@ -58,8 +59,46 @@ public class ProductController {
 			productDTO.addImage(uuid, fileName);
 		});
 		
-		return "redirect:/product/list";		
+		Integer pno = productService.register(productDTO);
+		
+		// 1회성 메시지
+		// 예: 등록 / 수정 / 삭제 후 메시지 전달 
+		rttr.addFlashAttribute("pno", pno);
+		
+		return "redirect:/product/list";	
 	}
+	
+	// 상품 목록
+	@GetMapping("/list")
+	public String list(
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size,
+			Model model) {
+		
+		ProductListPagingDTO dto = productService.getList(page, size);
+		
+		model.addAttribute("dto", dto);
+		
+		return "/product/list";
+	}
+	
+	// 상품 조회
+	@GetMapping("/read/{pno}")
+	public String read(@PathVariable("pno") Integer pno, Model model) {
+		model.addAttribute("product", productService.read(pno));
+		
+		return "/product/read";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	// 파일 업로드 기능
