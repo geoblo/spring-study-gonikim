@@ -31,7 +31,6 @@ public class ProductService {
 			productMapper.insertImage(productDTO);			
 		}
 		
-		
 		return pno;
 	}
 	
@@ -54,8 +53,24 @@ public class ProductService {
 		return productMapper.selectOne(pno);
 	}
 	
+	public void remove(Integer pno) {
+		productMapper.deleteOne(pno);
+	}
 	
-	
+	public void modify(ProductDTO productDTO) {
+		// 1. 기존 이미지 삭제
+		productMapper.deleteImage(productDTO.getPno());
+		
+		// 2. 상품 정보 수정
+		productMapper.updateOne(productDTO);
+		
+		// 3. 상품 이미지 갱신
+		// 이미지 리스트가 존재하고, 비어있지 않을 때만 실행
+		if (productDTO.getImageList() != null &&
+		   !productDTO.getImageList().isEmpty()) {
+			productMapper.insertImage(productDTO);
+		}
+	}
 	
 	
 	

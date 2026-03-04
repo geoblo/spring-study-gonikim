@@ -90,8 +90,25 @@ public class ProductController {
 		return "/product/read";
 	}
 	
+	// 상품 수정 화면
+	@GetMapping("/modify/{pno}")
+	public String modifyGET(@PathVariable("pno") Integer pno, Model model) {
+		model.addAttribute("product", productService.read(pno));
+		
+		return "/product/modify";
+	}
 	
-	
+	// 상품 삭제
+	@PostMapping("/remove")
+	public String remove(
+			@RequestParam("pno") Integer pno, 
+			RedirectAttributes rttr) {
+		productService.remove(pno);
+		
+		rttr.addFlashAttribute("result", "deleted");
+		
+		return "redirect:/product/list";
+	}
 	
 	
 	

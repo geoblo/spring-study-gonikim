@@ -5,6 +5,18 @@
 
 <%@include file="/WEB-INF/views/includes/header.jsp" %>
 
+<style>
+	.deleted-row {
+		background-color: #f0f0f0;
+		color: #888;
+		text-decoration: line-through;
+		font-style: italic;
+	}
+	.deleted-row img {
+		opacity: 0.4;
+	}
+</style>
+
 <div class="row justify-content-center">
 	<div class="col-lg-12">
 		<div class="card shadow mb-4">
@@ -25,7 +37,7 @@
 					
 					<tbody class="tbody">
 						<c:forEach var="product" items="${dto.productDTOList}">
-							<tr>
+							<tr class="${not product.sale ? 'deleted-row' : ''}">
 								<td>
 									<a href='/product/read/${product.pno}'>
 										<c:out value="${product.pno}"/>
@@ -91,11 +103,18 @@
 </div>
 
 <script type="text/javascript" defer="defer">
-	const pno = '${pno}';
+	const pno = '${pno}'; // 새로운 상품이 등록된 경우 생성된 상품 번호
+	
+	const result = '${result}'; // 삭제 처리 결과('deleted')
 	
 	const myModal = new bootstrap.Modal(document.getElementById('myModal'));
 	
-	if (pno) {
+	// 모달 본문에 삭제 처리 결과 넣기
+	if (result) {
+		document.querySelector('.modal-body').innerHTML = result;
+	}
+	
+	if (pno || result) {
 		myModal.show();
 	}
 	
