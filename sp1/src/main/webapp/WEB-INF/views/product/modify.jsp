@@ -128,19 +128,11 @@
 			
 			// insertAdjacentHTML: 지정된 위치에 HTML 코드를 삽입
 			// beforebegin(요소 바로 앞), afterbegin(요소 내부 맨 앞), beforeend(요소 내부 맨 뒤), afterend(요소 바로 뒤)
-			modifyForm.querySelector('div:last-child').insertAdjacentHTML('beforeend', html);
+			modifyForm.querySelector('div:last-child').insertAdjacentHTML('beforeend', html);			
 		}
+		
+		modifyForm.submit();
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </script>
 
 <%@include file="/WEB-INF/views/includes/footer.jsp" %>

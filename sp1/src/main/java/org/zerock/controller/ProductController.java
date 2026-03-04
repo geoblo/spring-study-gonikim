@@ -110,7 +110,40 @@ public class ProductController {
 		return "redirect:/product/list";
 	}
 	
-	
+	// 상품 수정 처리
+	@PostMapping("/modify")
+	public String modifyPOST(
+			ProductDTO productDTO,
+			@RequestParam(name = "oldImages", required = false) String[] oldImages, // 기존 이미지를 다 지울 경우를 대비
+			@RequestParam("files") MultipartFile[] files) {
+		
+		// 새로 추가된 파일 업로드
+		List<String> newFileNames = uploadFiles(files);
+		
+		// oldImages
+		if (oldImages != null && oldImages.length > 0) {
+			for (String oldImage : oldImages) {
+				String uuid = oldImage.substring(0, 36);
+				String fileName = oldImage.substring(37);
+				
+				productDTO.addImage(uuid, fileName);
+			}
+		}
+		
+		// newImages
+		if (newFileNames != null && newFileNames.size() > 0) {
+			for (String newImage : newFileNames) {
+				String uuid = newImage.substring(0, 36);
+				String fileName = newImage.substring(37);
+				
+				productDTO.addImage(uuid, fileName);
+			}
+		}
+		
+		productService.modify(productDTO);
+		
+		return "redirect:/product/read/" + productDTO.getPno();
+	}
 	
 	
 	
