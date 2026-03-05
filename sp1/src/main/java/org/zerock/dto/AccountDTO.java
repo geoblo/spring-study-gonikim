@@ -40,9 +40,14 @@ public class AccountDTO implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return uid;
+		return uid; // 주의! uid, uname 무엇을 반환할지에 따라 의미가 달라짐
+		// 로그인 ID(식별값)를 리턴하는 것을 권장
 	}
 	
+	// 기술적으로 필요 없지만 나중에 확장 대비해서 재정의
+	// 계정 활성/잠금/만료 상태가 DB에 있음
+	// 관리자가 계정을 정지시킬 수 있음
+	// 비밀번호 만료 정책이 있음
 	@Override
 	public boolean isAccountNonExpired() {
 		// 만료되지 않았음
