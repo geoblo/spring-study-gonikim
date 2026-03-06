@@ -33,7 +33,11 @@ public class SecurityConfig {
 		// 아이디/비밀번호 기반의 HTML 폼을 통한 로그인 기능을 활성화
 		// 스프링 시큐리티의 기본 로그인 처리 흐름을 구성
 		http.formLogin(config -> {
+			// 커스텀 로그인 페이지의 경로를 지정
+			config.loginPage("/account/login");
 			
+			// 로그인 성공 시 핸들러 등록
+			config.successHandler(new CustomLoginSuccessHandler());
 		});
 		
 		http.csrf(csrf -> csrf.disable());
