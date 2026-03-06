@@ -16,4 +16,9 @@ public class AccountController {
 		
 	}
 	
+	@GetMapping("/logout")
+	public void logout() {
+		
+	}
+	
 }

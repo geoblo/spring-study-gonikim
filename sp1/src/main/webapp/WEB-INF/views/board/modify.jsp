@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="/WEB-INF/views/includes/header.jsp" %>
 
@@ -45,8 +47,14 @@
       	<div class="float-end">
       		<!-- class 속성값으로 버튼을 식별할 수 있도록 구성 -->
          	<button type="button" class="btn btn-info btnList">LIST</button>
-         	<button type="button" class="btn btn-warning btnModify">MODIFY</button>
-         	<button type="button" class="btn btn-danger btnRemove">REMOVE</button>
+         	
+         	<sec:authentication property="principal" var="secInfo"/>
+					<sec:authentication property="authorities" var="roles"/>
+					
+					<c:if test="${!board.delFlag && (secInfo.uid == board.writer || fn:contains(roles, 'ROLE_ADMIN'))}">
+	         	<button type="button" class="btn btn-warning btnModify">MODIFY</button>
+	         	<button type="button" class="btn btn-danger btnRemove">REMOVE</button>
+         </c:if>
       	</div>
      	</div>
    	</div>
