@@ -37,6 +37,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		log.info("--------------- security config ---------------");
 		// 이 안에서 필터 체인을 직접 조립해서 리턴하도록 작성
+		// 필터 체인은 기본적으로 이미 존재 -> HttpSecurity 설정에 따라 필터 추가/제거/순서 변경
 		
 		// 아이디/비밀번호 기반의 HTML 폼을 통한 로그인 기능을 활성화
 		// 스프링 시큐리티의 기본 로그인 처리 흐름을 구성
@@ -72,8 +73,7 @@ public class SecurityConfig {
 //			handler.accessDeniedPage(null);
 		});
 		
-		
-		return http.build();
+		return http.build(); // HttpSecurity는 사실 필터를 등록하는 빌더(builder)임
 	}
 	
 	@Bean
